@@ -1,18 +1,51 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <div>
+      <input type="text" id="name" maxlength="15" placeholder="Имя">
+    </div>
+
+    <div style="margin-top: 10px">
+      <input type="text" id="surname" maxlength="20" placeholder="Фамилия">
+    </div>
+
+    <div>
+      <ul style="list-style: none; padding-left: 15px">
+        <li style="display: inline; padding-right: 20px"><input name="sex" type="radio">Муж</li>
+        <li style="display: inline; padding-right: 20px"><input name="sex" type="radio">Жен</li>
+      </ul>
+    </div>
+
+    <div>
+      <select>
+        <option>Любимый ЯП</option>
+        <option>C</option>
+        <option>C++</option>
+        <option>C++++ (aka C#)</option>
+        <option>Python</option>
+        <option>Java</option>
+        <option>Я гуманитарий</option>
+      </select>
+    </div>
+
+    <div style="margin: 10px">
+      <select>
+        <option>Любимый pattern</option>
+        <option>SOLID</option>
+        <option>SOLID</option>
+        <option>SOLID</option>
+        <option>Я гуманитарий</option>
+      </select>
+    </div>
   </div>
+
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import {Options, Vue} from 'vue-class-component';
 
 @Options({
-  components: {
-    HelloWorld,
-  },
+  components: {}
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+}
 </script>
