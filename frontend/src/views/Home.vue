@@ -2,50 +2,17 @@
   <div class="home">
     <form @submit.prevent="sendClick" novalidate>
 
-      <div>
-        <input type="text" id="name" maxlength="15" placeholder="Имя"
-               v-model="this.$store.state.regForm.name">
-      </div>
+      <Name></Name>
 
-      <div style="margin-top: 10px">
-        <input type="text" id="surname" maxlength="20" placeholder="Фамилия"
-               v-model="this.$store.state.regForm.surname">
-      </div>
+      <SurName></SurName>
 
-      <div>
-        <ul style="list-style: none; padding-left: 15px">
-          <li style="display: inline; padding-right: 20px"><input name="sex" type="radio" value="male"
-                                                                  v-model="this.$store.state.regForm.sex">Муж
-          </li>
-          <li style="display: inline; padding-right: 20px"><input name="sex" type="radio" value="female"
-                                                                  v-model="this.$store.state.regForm.sex">Жен
-          </li>
-        </ul>
-      </div>
+      <Sex></Sex>
 
-      <div>
-        <select v-model="this.$store.state.regForm.language">
-          <option>Любимый ЯП</option>
-          <option>C</option>
-          <option>C++</option>
-          <option>C++++ (aka C#)</option>
-          <option>Python</option>
-          <option>Java</option>
-          <option>Я гуманитарий</option>
-        </select>
-      </div>
+      <FavLang></FavLang>
 
-      <div style="margin: 10px">
-        <select v-model="this.$store.state.regForm.pattern">
-          <option>Любимый pattern</option>
-          <option>SOLID</option>
-          <option>SOLID</option>
-          <option>SOLID</option>
-          <option>Я гуманитарий</option>
-        </select>
-      </div>
+      <FavPtrn></FavPtrn>
 
-      <button>Click me</button>
+      <button style="margin-top: 10px">Click me</button>
     </form>
   </div>
 
@@ -54,13 +21,28 @@
 <script lang="ts">
 import {Options, Vue} from 'vue-class-component'
 import store from '../store'
+import Name from '../components/Name.vue'
+import SurName from '../components/SurName.vue'
+import Sex from '../components/Sex.vue'
+import FavLang from '../components/FavLang.vue'
+import FavPtrn from '../components/FavPtrn.vue'
 
 @Options({
-  components: {},
+  components: {
+    Name,
+    SurName,
+    Sex,
+    FavLang,
+    FavPtrn,
+  },
   methods: {
     sendClick() {
-      console.log(store.getters.getForm);
-    },
+      console.log('name: ' + store.state.name);
+      console.log('surname: ' + store.state.surname);
+      console.log('sex: ' + store.state.sex);
+      console.log('favlang: ' + store.state.favlang);
+      console.log('favptrn: ' + store.state.favptrn);
+    }
   }
 })
 export default class Home extends Vue {

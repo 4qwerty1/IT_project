@@ -2,22 +2,13 @@ import {createStore} from 'vuex'
 
 export default createStore({
     state: {
-        regForm: {
-            name: '',
-            surname: '',
-            sex: null,
-            language: 'Любимый ЯП',
-            pattern: 'Любимый pattern'
-        }
+        name: '',
+        surname: '',
+        sex: '',
+        favlang: 'Любимый ЯП',
+        favptrn: 'Любимый pattern',
     },
-    getters: {
-        getForm: state => {
-            return state.regForm
-        },
-        getFormName: state => {
-            return state.regForm.name
-        }
-    },
+    getters: {},
     mutations: {},
     actions: {},
     modules: {}
