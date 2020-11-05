@@ -1,13 +1,10 @@
 <template>
   <div class="home">
-    <form novalidate>
-    <pre>
-      {{ this.$v.regForm.name }}
-    </pre>
+    <form @submit.prevent="sendClick" novalidate>
 
       <div>
         <input type="text" id="name" maxlength="15" placeholder="Имя"
-               v-model="this.$store.state.regForm.name" @blur="this.$v.regForm.name.touch()">
+               v-model="this.$store.state.regForm.name">
       </div>
 
       <div style="margin-top: 10px">
@@ -17,9 +14,11 @@
 
       <div>
         <ul style="list-style: none; padding-left: 15px">
-          <li style="display: inline; padding-right: 20px"><input name="sex" type="radio">Муж
+          <li style="display: inline; padding-right: 20px"><input name="sex" type="radio" value="male"
+                                                                  v-model="this.$store.state.regForm.sex">Муж
           </li>
-          <li style="display: inline; padding-right: 20px"><input name="sex" type="radio">Жен
+          <li style="display: inline; padding-right: 20px"><input name="sex" type="radio" value="female"
+                                                                  v-model="this.$store.state.regForm.sex">Жен
           </li>
         </ul>
       </div>
@@ -46,7 +45,7 @@
         </select>
       </div>
 
-      <button @click="sendClick">Click me</button>
+      <button>Click me</button>
     </form>
   </div>
 
@@ -62,18 +61,9 @@ import store from '../store'
     sendClick() {
       console.log(store.getters.getForm);
     },
-
-  },
-  validations: {
-    regForm: {
-      name: {
-        required: require
-      }
-    }
   }
 })
 export default class Home extends Vue {
 
 }
-
 </script>
