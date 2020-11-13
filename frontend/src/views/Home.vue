@@ -2,15 +2,15 @@
   <div class="home">
     <form @submit.prevent="sendClick" novalidate>
 
-      <Name></Name>
+      <Name ref="name"></Name>
 
-      <SurName></SurName>
+      <SurName ref="surname"></SurName>
 
-      <Sex></Sex>
+      <Sex ref="sex"></Sex>
 
-      <FavLang></FavLang>
+      <FavLang ref="favlang"></FavLang>
 
-      <FavPtrn></FavPtrn>
+      <FavPtrn ref="favptrn"></FavPtrn>
 
       <button style="margin-top: 10px">Click me</button>
     </form>
@@ -37,11 +37,16 @@ import FavPtrn from '../components/FavPtrn.vue'
   },
   methods: {
     sendClick() {
-      console.log('name: ' + store.state.name);
-      console.log('surname: ' + store.state.surname);
-      console.log('sex: ' + store.state.sex);
-      console.log('favlang: ' + store.state.favlang);
-      console.log('favptrn: ' + store.state.favptrn);
+      const err = this.validate();
+      if (err) alert("Всё ок!");
+    },
+    validate() {
+      let err = !this.$refs.name.validate();
+      err = !this.$refs.surname.validate() || err;
+      err = !this.$refs.sex.validate() || err;
+      err = !this.$refs.favlang.validate() || err;
+      err = !this.$refs.favptrn.validate() || err;
+      return !err;
     }
   }
 })
