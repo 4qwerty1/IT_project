@@ -30,3 +30,7 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Что-то
+backend/backend/__pycache__
+backend/env
