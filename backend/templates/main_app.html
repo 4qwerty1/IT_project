@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js"
+            integrity="sha512-PyKhbAWS+VlTWXjk/36s5hJmUJBxcGY/1hlxg6woHD/EONP2fawZRKmvHdTGOWPKTqk3CPSUPh7+2boIBklbvw=="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.js"
+            integrity="sha512-bYkaBWaFtfPIMYt9+CX/4DWgfrjcHinjerNYxQmQx1VM76eUsPPKZa5zWV8KksVkBF/DaHSADCwil2J5Uq2ctA=="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- участок кода, который будет игнорироваться django-->
+{% verbatim %}
+<div class="container" id="orders_app">
+
+    <div class="btn btn-success btn-lg" v-for="order in orders">
+        Description: {{ order.description }} <!-- синтаксис vue -->
+        <br>
+        Amount : {{ order.amount }}
+    </div>
+    <br>
+
+</div>
+{% endverbatim %}
+
+<script src="/static/app.js"></script>
+</body>
+</html>

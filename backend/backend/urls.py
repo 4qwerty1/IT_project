@@ -15,10 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework.routers import SimpleRouter
 
-from app1.views import orders_page
+from app1.views import orders_page, OrderView, orders_app
+
+router = SimpleRouter()
+
+# как правило все адресы для api инпоитов начинаяются с префикса 'api/orders'
+router.register('api/orders', OrderView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', orders_page),  # назначим на главноую страницу сайта
+    path('', orders_page),  # назначим на главную страницу сайта
+    path('orders_page/', orders_app),
 ]
+
+urlpatterns += router.urls  # router.urls - это список
