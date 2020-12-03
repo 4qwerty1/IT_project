@@ -2,6 +2,8 @@
   <div class="home">
     <form @submit.prevent="sendClick" novalidate>
 
+      <UserName ref="username"></UserName>
+
       <Name ref="name"></Name>
 
       <SurName ref="surname"></SurName>
@@ -21,6 +23,7 @@
 <script lang="ts">
 import {Options, Vue} from 'vue-class-component'
 import store from '../store'
+import UserName from '../components/UserName.vue'
 import Name from '../components/Name.vue'
 import SurName from '../components/SurName.vue'
 import Sex from '../components/Sex.vue'
@@ -30,6 +33,7 @@ import axios from 'axios'
 
 @Options({
   components: {
+    UserName,
     Name,
     SurName,
     Sex,
@@ -42,7 +46,8 @@ import axios from 'axios'
       if (err) this.sendRequest();
     },
     validate() {
-      let err = !this.$refs.name.validate();
+      let err = !this.$refs.username.validate();
+      err = !this.$refs.name.validate() || err;
       err = !this.$refs.surname.validate() || err;
       err = !this.$refs.sex.validate() || err;
       err = !this.$refs.favlang.validate() || err;
@@ -52,11 +57,8 @@ import axios from 'axios'
     sendRequest() {
       const http = axios.create({baseURL: 'http://localhost:8000/form/'});
 
-      // http.get('/api/users/').then(response => {
-      //   console.log(response.data);
-      // })
-
       const post = {
+        "username": this.$refs.username.username,
         "firstName": this.$refs.name.name,
         "lastName": this.$refs.surname.surname,
         "sex": (this.$refs.sex.sex == "male"),
