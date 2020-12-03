@@ -38,9 +38,8 @@ import axios from 'axios'
   },
   methods: {
     sendClick() {
-      this.sendRequest();
       const err = this.validate();
-      if (err) alert("Всё ок!");
+      if (err) this.sendRequest();
     },
     validate() {
       let err = !this.$refs.name.validate();
@@ -51,23 +50,27 @@ import axios from 'axios'
       return !err;
     },
     sendRequest() {
-      // this.axios.defaults.baseURL = '//127.0.0.1:8000/';
-      // axios.get('//127.0.0.1:8000/api/orders/');
-      // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-      axios.get('//127.0.0.1:8000/api/orders/') // отправит запрос на /api/orders
-          .then((response) => {
-            console.log('hello, motherfucker');
-          }) // после того как придет ответ, получаем ответ от сервера
-          .catch(function (error) {
-            console.log("it's error, motherfucker!");
-          });
+      const http = axios.create({baseURL: 'http://localhost:8000/form/'});
 
-      // axios
-      //     .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-      //     .then(response => (this.info = response))
-      //     .catch(function (error) {
-      //       console.log("it's error, motherfucker!");
-      //     });
+      // http.get('/api/users/').then(response => {
+      //   console.log(response.data);
+      // })
+
+      const post = {
+        "firstName": this.$refs.name.name,
+        "lastName": this.$refs.surname.surname,
+        "sex": (this.$refs.sex.sex == "male"),
+        "favPL": this.$refs.favlang.favlang,
+        "favPattern": this.$refs.favptrn.favptrn
+      }
+
+      http.post('/api/users/', post)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     }
   }
 })

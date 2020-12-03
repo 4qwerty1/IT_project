@@ -14,10 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from rest_framework.routers import SimpleRouter, DefaultRouter
 
 from app1.views import main_page, OrderView, orders_app
+from forms.views import register
 
 router = SimpleRouter()
 
@@ -27,7 +28,7 @@ router.register('api/orders', OrderView)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main_page),  # назначим на главную страницу сайта
-    # path('orders_page/', include('app1.urls')), ТАК ДЕЛАЛ СТАС
+    path('form/', include('forms.urls')),
     path('orders_page/', orders_app),
 ]
 

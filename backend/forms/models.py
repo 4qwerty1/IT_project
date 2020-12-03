@@ -2,7 +2,11 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class MyUser(AbstractUser):
+class MyUser(models.Model):
+    firstName = models.CharField(max_length=50)
+    lastName = models.CharField(max_length=50)
     sex = models.BooleanField()
-    favPL = models.CharField()
-    favPattern = models.CharField()
+    favPL = models.CharField(max_length=50)
+    favPattern = models.CharField(max_length=50)
+
+
