@@ -18,7 +18,6 @@ from django.urls import path, include
 from rest_framework.routers import SimpleRouter, DefaultRouter
 
 from app1.views import main_page, OrderView, orders_app
-from forms.views import register
 
 router = SimpleRouter()
 
