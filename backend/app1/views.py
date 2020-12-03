@@ -5,7 +5,7 @@ from app1.models import SalesOrder
 from app1.serializers import OrderSerializer
 
 
-def orders_page(request):
+def main_page(request):
     return render(request, 'index.html', {'orders': SalesOrder.objects.all()})
 
 

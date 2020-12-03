@@ -7,7 +7,7 @@ new Vue({
         },
         created: function () {
             // код на js, который выполнится, когда vue будет создано (когда откроется web страница)
-            const vm = this;
+            let vm = this;
             axios.get('/api/orders/') // отправит запрос на /api/orders
                 .then(function (response) {
                     vm.orders = response.data;

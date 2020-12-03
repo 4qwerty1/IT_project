@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from rest_framework.routers import SimpleRouter
+from rest_framework.routers import SimpleRouter, DefaultRouter
 
-from app1.views import orders_page, OrderView, orders_app
+from app1.views import main_page, OrderView, orders_app
 
 router = SimpleRouter()
 
@@ -26,7 +26,8 @@ router.register('api/orders', OrderView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', orders_page),  # назначим на главную страницу сайта
+    path('', main_page),  # назначим на главную страницу сайта
+    # path('orders_page/', include('app1.urls')), ТАК ДЕЛАЛ СТАС
     path('orders_page/', orders_app),
 ]
 
