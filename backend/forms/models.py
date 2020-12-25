@@ -6,7 +6,7 @@ class User(models.Model):
     login = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=50)
     email = models.EmailField()
-    icon = models.ImageField(upload_to='icons')
+    icon = models.ImageField(upload_to='icons', null=True)
     firstName = models.CharField(max_length=50)
     lastName = models.CharField(max_length=50)
 
