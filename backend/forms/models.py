@@ -2,14 +2,33 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class MyUser(models.Model):
-    username = models.CharField(max_length=50, unique=True)
+class User(models.Model):
+    login = models.CharField(max_length=50, unique=True)
+    password = models.CharField(max_length=50)
+    email = models.EmailField()
+    icon = models.ImageField(upload_to='icons')
     firstName = models.CharField(max_length=50)
     lastName = models.CharField(max_length=50)
-    sex = models.BooleanField()
-    favPL = models.CharField(max_length=50)
-    favPattern = models.CharField(max_length=50)
 
     # для корректного отображения в админке
     def __str__(self):
-        return f'Id {self.id}: {self.username}'
+        return f'Id {self.id}: {self.login}'
+
+
+class Topic(models.Model):
+    title = models.CharField(max_length=100, unique=True)
+    data_create = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Message(models.Model):
+    text = models.CharField(max_length=200)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    # может ссылатьс на удаленного пользователя?
+    sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    time_create = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'From: {self.sender.login}'

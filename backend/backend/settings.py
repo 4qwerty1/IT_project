@@ -133,3 +133,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
     )
 }
+
+MEDIA_ROOT = BASE_DIR / 'media/'  # os.path.join(BASE_DIR, "media")
+
+MEDIA_URL = '/media/'

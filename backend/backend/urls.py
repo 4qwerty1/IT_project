@@ -17,18 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import SimpleRouter, DefaultRouter
 
-from app1.views import main_page, OrderView, orders_app
-
 router = SimpleRouter()
-
-# как правило все адресы для api инпоитов начинаяются с префикса 'api/orders'
-router.register('api/orders', OrderView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', main_page),  # назначим на главную страницу сайта
     path('form/', include('forms.urls')),
-    path('orders_page/', orders_app),
 ]
 
 urlpatterns += router.urls  # router.urls - это список
