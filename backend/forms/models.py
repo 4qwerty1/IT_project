@@ -20,7 +20,7 @@ class Topic(models.Model):
     data_create = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return f'Id {self.id}: {self.title}'
 
 
 class Message(models.Model):
@@ -41,4 +41,3 @@ class Message(models.Model):
 
     def icon(self):
         return '../backend' + self.sender.icon.url
-        # return self.sender.icon.storage

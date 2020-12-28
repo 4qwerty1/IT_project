@@ -11,6 +11,16 @@ class UserSerializer(ModelSerializer):
 
 
 class MessageSerializer(ModelSerializer):
+    def __init__(self, fields, **kwargs):
+        super().__init__(**kwargs)
+        fields = fields
+
+    class Meta:
+        model = Message
+        fields = '__all__'
+
+
+class ForGet(ModelSerializer):
     class Meta:
         model = Message
         fields = ('id', 'text', 'firstname', 'lastname', 'icon')
