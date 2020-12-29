@@ -14,6 +14,7 @@ from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -102,10 +103,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 4,
+        }
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
@@ -136,6 +140,8 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = BASE_DIR / 'media/'  # os.path.join(BASE_DIR, "media")
 
 MEDIA_URL = '/media/'
+
+AUTH_USER_MODEL = 'test_app.User'
 
 REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (
