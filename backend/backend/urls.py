@@ -25,6 +25,7 @@ router = SimpleRouter()
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('forms.urls')),
+    path('', include('test_app.urls')),
 ]
 
 urlpatterns += router.urls  # router.urls - это список

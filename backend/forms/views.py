@@ -13,7 +13,7 @@ from django.views.generic import View
 
 class UserView(ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer(fields=('id', 'login'))
+    serializer_class = UserSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['login']
     # имеет смысл, кода ищем по двум полям и более
@@ -27,7 +27,7 @@ class UserView(ModelViewSet):
 
 class MessageView(ModelViewSet):
     queryset = Message.objects.all()
-    serializer_class = MessageSerializer(fields=('id', 'text'))
+    serializer_class = MessageSerializer
 
     # def get_serializer_class(self):
     #     if self.action == 'create':
