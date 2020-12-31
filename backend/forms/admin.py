@@ -3,12 +3,17 @@ from django.contrib.admin import ModelAdmin
 
 from forms.models import User, Topic, Message
 
-admin.site.register(Topic)
+# admin.site.register(Topic)
 
 
 @admin.register(User)
 class UserAdmin(ModelAdmin):
     list_display = ('login', 'id', 'firstName', 'lastName')
+
+
+@admin.register(Topic)
+class TopicAdmin(ModelAdmin):
+    list_display = ('id', 'title')
 
 
 @admin.register(Message)
