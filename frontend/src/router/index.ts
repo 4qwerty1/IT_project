@@ -1,19 +1,20 @@
 import Vue from 'vue'
 import VueRouter, {RouteConfig} from 'vue-router'
 
-// Views
-import Home from '../views/Home.vue'
-import Registration from '../views/Registration.vue'
-import Login from '../views/Login.vue'
-import ChatRoom from '../views/ChatRoom.vue'
+// import views
+import Login from '@/views/Login.vue'
+import Registration from '@/views/Registration.vue'
+import Profile from '@/views/Profile.vue'
+import ChatRoom from '@/views/ChatRoom.vue'
+import TopicView from '@/views/TopicView.vue'
 
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
     {
         path: '/',
-        name: 'Home',
-        component: Home
+        name: 'TopicView',
+        component: TopicView
     },
     {
         path: '/login',
@@ -28,7 +29,13 @@ const routes: Array<RouteConfig> = [
     {
         path: '/chat',
         name: 'Chat',
-        component: ChatRoom
+        props: true,
+        component: ChatRoom,
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile
     },
 ]
 

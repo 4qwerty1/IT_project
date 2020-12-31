@@ -28,7 +28,7 @@ export default {
       this.$router.push({name: 'Registration'})
     },
     profileClick() {
-      this.$router.push({name: 'Login'})
+      this.$router.push({name: 'Profile'})
     }
   }
 }
