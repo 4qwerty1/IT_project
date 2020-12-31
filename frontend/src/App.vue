@@ -1,13 +1,38 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-      |
-      <router-link to="/about">About</router-link>
-    </div>
+    <md-toolbar id="nav-bar" class="c-dark" md-elevation="2"
+                style="min-height: 48px !important; margin-bottom: 20px !important;">
+      <div v-if="false" style="margin-left: auto; margin-right: 5%">
+        <md-button class="md-raised md-primary round" @click="loginClick">Login</md-button>
+        <md-button class="md-raised md-primary round" @click="registerClick">Registration</md-button>
+      </div>
+      <md-button v-else-if="true" class="md-icon-button" style="margin-left: auto; margin-right: 5%"
+                 type="button" @click="profileClick">
+        <img class="icon" alt="send" src="./assets/icons/user.svg">
+      </md-button>
+    </md-toolbar>
     <router-view/>
   </div>
 </template>
+
+<script lang="js">
+import './styles/my-style.scss'
+
+export default {
+  name: 'App',
+  methods: {
+    loginClick() {
+      this.$router.push({name: 'Login'})
+    },
+    registerClick() {
+      this.$router.push({name: 'Registration'})
+    },
+    profileClick() {
+      this.$router.push({name: 'Login'})
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 body {
@@ -22,38 +47,7 @@ body {
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-
 ::selection {
   background-color: #448aff !important;
-}
-
-.container {
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.mw-300 {
-  max-width: 300px;
-}
-
-.mw-400 {
-  max-width: 400px;
-}
-
-.mw-600 {
-  max-width: 600px;
 }
 </style>
