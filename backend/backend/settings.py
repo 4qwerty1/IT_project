@@ -62,7 +62,16 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS_ORIGIN_WHITELIST = [
+#     "http://localhost:8080",
+#     "http://localhost:8081",
+#     "http://127.0.0.1:8000",
+#     "http://127.0.0.1:1313",
+#     "http://localhost:1313",
+#     "http://164.90.190.249"
+# ]
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -149,7 +158,7 @@ REST_FRAMEWORK = {
     # ),
     # 'DEFAULT_PARSER_CLASSES': (
     #     'rest_framework.parsers.JSONParser',
-    # )
+    # ),
     'DEFAULT_PERMISSION_CLASSES': {
         # 'rest_framework.permissions.IsAdminUser',
         'rest_framework.permissions.AllowAny',
