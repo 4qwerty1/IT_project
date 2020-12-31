@@ -15,6 +15,9 @@
               <md-input id="login" v-model="form.login" :disabled="sending" autocomplete="given-name"
                         name="login"/>
               <span v-if="!$v.form.login.required" class="md-error">Необходимо указать логин</span>
+              <span v-else-if="!$v.form.login.ruLetter" class="md-error">
+                Логин не должен содержать русских букв
+              </span>
             </md-field>
           </div>
 
@@ -24,6 +27,10 @@
               <md-input id="password" v-model="form.password" autocomplete="password" name="password"
                         type="password"></md-input>
               <span v-if="!$v.form.password.required" class="md-error">Введите пароль</span>
+              <span v-else-if="!$v.form.password.ruLetter" class="md-error">
+                Пароль не должен содержать русских букв
+              </span>
+
             </md-field>
           </div>
         </div>
@@ -34,7 +41,9 @@
       <md-card-actions>
         <md-button :disabled="sending" class="md-primary" type="submit">Войти</md-button>
       </md-card-actions>
-      <router-link to="register">Зарегистрироваться</router-link>
+      <router-link class="rout-nav" to="register">Зарегистрироваться</router-link>
+      <!--TODO переделать отображение зарегистрироваться-->
+
     </md-card>
   </form>
 </template>
@@ -58,9 +67,11 @@ export default {
     form: {
       login: {
         required,
+        ruLetter: (value) => !(/[а-я]/.test(value) || /[А-Я]/.test(value)),
       },
       password: {
-        required
+        required,
+        ruLetter: (value) => !(/[а-я]/.test(value) || /[А-Я]/.test(value)),
       }
     }
   },

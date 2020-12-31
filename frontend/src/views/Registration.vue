@@ -12,8 +12,11 @@
             <md-input id="login" v-model="form.login" :disabled="sending" autocomplete="given-name"
                       name="first-name"/>
             <span v-if="!$v.form.login.required" class="md-error">Введите логин</span>
-            <span v-else-if="!$v.form.login.minLength" class="md-error">Логин должен быть больше 3 символов</span>
-            <span v-else-if="!$v.form.login.maxlength" class="md-error">Логин должен быть меньше 20 символов</span>
+            <span v-else-if="!$v.form.login.ruLetter" class="md-error">
+                Логин не должен содержать русских букв
+            </span>
+            <span v-else-if="!$v.form.login.minLength" class="md-error">Логин должен быть меньше 3 символов</span>
+            <span v-else-if="!$v.form.login.maxlength" class="md-error">Логин должен быть больше 20 символов</span>
           </md-field>
         </div>
 
@@ -31,6 +34,9 @@
             <md-input id="password" v-model="form.password" autocomplete="password" name="password"
                       type="password"></md-input>
             <span v-if="!$v.form.password.required" class="md-error">Введите пароль</span>
+            <span v-else-if="!$v.form.password.ruLetter" class="md-error">
+              Пароль не должен содержать русских букв
+            </span>
           </md-field>
         </div>
       </md-card-content>
@@ -40,6 +46,10 @@
       <md-card-actions>
         <md-button :disabled="sending" class="md-primary" type="submit">Создать</md-button>
       </md-card-actions>
+
+      <router-link class="rout-nav" to="login">Вход</router-link>
+      <!--TODO переделать отображение вход-->
+
     </md-card>
 
     <md-snackbar :md-active.sync="userSaved">Пользователь {{ form.login }} успешно создан!</md-snackbar>
@@ -49,12 +59,7 @@
 <script lang="js">
 import {validationMixin} from 'vuelidate'
 import axios from 'axios'
-import {
-  required,
-  email,
-  minLength,
-  maxLength,
-} from 'vuelidate/lib/validators'
+import {email, maxLength, minLength, required,} from 'vuelidate/lib/validators'
 
 export default {
   name: 'Registration',
@@ -74,14 +79,16 @@ export default {
       login: {
         required,
         minLength: minLength(3),  // TODO проверить минимальное кол-во символов
-        maxLength: maxLength(20)  // TODO проверить максимальное кол-во символов
+        maxLength: maxLength(20), // TODO проверить максимальное кол-во символов
+        ruLetter: (value) => !(/[а-я]/.test(value) || /[А-Я]/.test(value)),
       },
       email: {
         required,
         email
       },
       password: {
-        required
+        required,
+        ruLetter: (value) => !(/[а-я]/.test(value) || /[А-Я]/.test(value)), // можно присваивать свои функции
       }
     }
   },
