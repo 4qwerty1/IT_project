@@ -23,4 +23,4 @@ class MessageSerializer(ModelSerializer):
 class ForGet(ModelSerializer):
     class Meta:
         model = Message
-        fields = ('id', 'text', 'firstname', 'lastname', 'icon')
+        fields = ('id', 'text', 'firstname', 'lastname', 'icon')  # get_full_name
