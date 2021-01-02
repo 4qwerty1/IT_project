@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    icon = models.ImageField(upload_to='icons', null=True, blank=True)
+    icon = models.ImageField(upload_to='icons', null=True, blank=True)  # redo rename icon to image
 
     # def clean_password(self):
     #     password = self.cleaned_data.get('password1')

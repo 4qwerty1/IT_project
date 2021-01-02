@@ -3,7 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-    icon = models.ImageField(upload_to='icons', null=True, blank=True)
+    avatar = models.ImageField(upload_to='icons', null=True, blank=True)
 
     def __str__(self):
         return f'Id {self.id}: {self.username}'
@@ -20,18 +20,18 @@ class Topic(models.Model):
 class Message(models.Model):
     text = models.CharField(max_length=200)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    # может ссылатьс на удаленного пользователя?
+    # может ссылаться на удаленного пользователя?
     sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     time_create = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'From: {self.sender.username}'
 
-    def firstname(self):
-        return self.sender.first_name
+    def get_name(self):
+        return self.sender.get_full_name()
 
-    def lastname(self):
-        return self.sender.last_name
+    def get_avatar(self):
+        if self.sender.avatar == '':
+            return None
+        return self.sender.avatar.url
 
-    def icon(self):
-        return '../backend' + self.sender.icon.url

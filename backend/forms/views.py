@@ -7,9 +7,6 @@ from rest_framework.viewsets import ModelViewSet
 from forms.models import User, Message
 from forms.serializers import UserSerializer, MessageSerializer, ForGet
 
-from django.http import HttpResponse
-from django.views.generic import View
-
 
 class UserView(ModelViewSet):
     queryset = User.objects.all()
