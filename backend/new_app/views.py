@@ -1,30 +1,15 @@
 from django.contrib.auth import get_user_model
-from djoser.serializers import UserSerializer
-from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView, RetrieveUpdateAPIView
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
-import json
 
+from backend.settings import SECRET_KEY
 from new_app.models import Topic, Message
-from new_app.serializers import UserRegistrationSerializer, TopicSerializer, GetMessages, CreateMessage
-
-
-class UserList(ModelViewSet):
-    queryset = get_user_model().objects.all()
-    serializer_class = UserSerializer
-    # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    # filter_fields = ['login']
-    # # имеет смысл, кода ищем по двум полям и более
-    # # (пример: имя автора книги встречается в названии другой книги)
-    # search_fields = ['firs_name', 'last_name']  # .../api/users/?search=...
-    # # sorting by ...
-    # # ?ordering=price - сортировка цены по возрастанию
-    # # ?ordering=-price - сортировка цены по убыванию
-    # ordering_fields = ['login', 'first_name', 'last_name']  # .../api/users/?ordering=...
+from new_app.serializers import UserRegistrationSerializer, TopicSerializer, GetMessages, CreateMessage, \
+    UserProfileSerializer
+import jwt
 
 
 class ListUsers(ListAPIView):
@@ -33,15 +18,15 @@ class ListUsers(ListAPIView):
     permission_classes = [IsAuthenticated]
 
 
-class ListTopics(ListAPIView):
+class ListTopics(ListCreateAPIView):
     queryset = Topic.objects.all()
     serializer_class = TopicSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class GetMessagesView(ListAPIView):
     serializer_class = GetMessages
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     filter_fields = ['topic']
 
     def get_queryset(self):
@@ -76,7 +61,29 @@ class LoadNewMessages(ListAPIView):
             return queryset.filter(time_create__lt=start)
 
 
-# todo сделать чтобы get_messages и load_new_messages работали с body запроса, а не с его параметрами
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        token = self.request.headers['Authorization'].split()[1]
+        user_id = jwt.decode(token, algorithms='HS256', key=SECRET_KEY)['user_id']
+        return get_user_model().objects.get(id=user_id)
+
+    def get(self, request, *args, **kwargs):
+        serializer = UserProfileSerializer(self.get_object())
+
+        user = self.get_object()
+        print(user.first_name)
+        return Response(serializer.data)
+
+    def patch(self, request, *args, **kwargs):
+        obj = self.get_object()
+
+        serializer = UserProfileSerializer(obj, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 # request.query_params - параметры после /?  в запросе
 # request.query_params['username'] - пример

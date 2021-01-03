@@ -34,4 +34,3 @@ class Message(models.Model):
         if self.sender.avatar == '':
             return None
         return self.sender.avatar.url
-

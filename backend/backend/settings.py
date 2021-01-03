@@ -34,8 +34,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 
     'corsheaders',
-    # 'forms',
-    # 'test_app',
     'new_app',
 ]
 
@@ -142,11 +140,11 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PARSER_CLASSES': (
     #     'rest_framework.parsers.JSONParser',
     # ),
-    'DEFAULT_PERMISSION_CLASSES': {
-        'rest_framework.permissions.IsAdminUser',
-        'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.permissions.AllowAny',
-    },
+    # 'DEFAULT_PERMISSION_CLASSES': {
+    # 'rest_framework.permissions.IsAdminUser',
+    # 'rest_framework.permissions.IsAuthenticated',
+    # 'rest_framework.permissions.AllowAny',
+    # },
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
@@ -161,7 +159,7 @@ DJOSER = {
     # 'ACTIVATION_URL': '#/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': False,
     'SERIALIZERS': {
-         'user_create': 'new_app.serializers.UserRegistrationSerializer'
+        'user_create': 'new_app.serializers.UserRegistrationSerializer'
     }
 }
 
@@ -169,4 +167,6 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=2),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'AUTH_HEADER_TYPES': ('JWT',),
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
 }
