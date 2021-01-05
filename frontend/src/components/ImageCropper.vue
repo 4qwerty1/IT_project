@@ -98,7 +98,6 @@ export default {
 }
 
 // TODO попытаться поправить приближение
-
 </script>
 
 <style lang="scss" scoped>
