@@ -7,6 +7,7 @@
 
       <md-card-content>
 
+        <ImageCropper/>
 
         <div class="md-layout md-gutter">
           <div class="md-layout-item md-small-size-100">
@@ -36,9 +37,11 @@
 <script lang="js">
 import axios from 'axios'
 import {required, maxLength,} from 'vuelidate/lib/validators'
+import ImageCropper from "@/components/ImageCropper";
 
 export default {
   name: "Profile",
+  components: {ImageCropper},
   data: () => ({
     form: {
       firstName: null,
