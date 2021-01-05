@@ -4,9 +4,9 @@
       <div class="msg-container" v-for="message in messages" :key="message.id">
         <div class="left">
           <md-avatar>
-            <img :src="'http://localhost:8000' + message.icon" alt="Ava">
+            <img :src="'http://localhost:8000' + message.get_avatar" alt="Ava">
           </md-avatar>
-          <span class="name">{{ message.firstname }}</span>
+          <span class="name">{{ message.get_name }}</span>
         </div>
         <div class="message">{{ message.text }}</div>
       </div>
@@ -23,13 +23,21 @@ export default {
       type: Array,
       default: () => [{
         id: 0,            // message id
-        firstname: 'name',// sender name
-        icon: 'url',      // icon url
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        get_name: 'name',// sender name
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        get_avatar: 'url',      // icon url
         text: 'message'   // message text
       }]
     }
   }
 }
+// TODO Размер имени
+// TODO Выводить логин, если нет имени
+// TODO Доделать профиль
+// TODO Написать запросы
+// TODO Научиться отправлять фото
+
 </script>
 
 <style lang="scss" scoped>
