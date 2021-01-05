@@ -5,7 +5,7 @@ const http = axios.create({baseURL: 'http://localhost:8000/'});
 export default {
     actions: {
         async fetchPosts(ctx, topicId) {
-            const res = await http.get(`/api/messages/?topic=${topicId}`)
+            const res = await http.get(`/api/get-messages/?topic=${topicId}`)
             ctx.commit('updatePosts', res.data)
         },
         addPost(ctx, post) {
