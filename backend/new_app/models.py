@@ -28,7 +28,11 @@ class Message(models.Model):
         return f'From: {self.sender.username}'
 
     def get_name(self):
-        return self.sender.get_full_name()
+        name = self.sender.get_full_name()
+        if name == '':
+            return self.sender.username
+        else:
+            return name
 
     def get_avatar(self):
         if self.sender.avatar == '':
