@@ -19,7 +19,7 @@ class TopicSerializer(ModelSerializer):
 class GetMessages(ModelSerializer):
     class Meta:
         model = Message
-        fields = ('id', 'text', 'get_name', 'get_avatar', 'time_create')
+        fields = ('text', 'get_name', 'get_avatar', 'time_create')
 
 
 class CreateMessage(ModelSerializer):

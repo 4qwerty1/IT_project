@@ -4,6 +4,7 @@ from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIVie
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.http import QueryDict
 
 from backend.settings import SECRET_KEY
 from new_app.models import Topic, Message
@@ -41,6 +42,22 @@ class CreateMessageView(CreateAPIView):
     queryset = Message.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = CreateMessage
+
+    def get_request_data(self):
+        token = self.request.headers['Authorization'].split()[1]
+        user_id = jwt.decode(token, algorithms='HS256', key=SECRET_KEY)['user_id']
+
+        new_dict = QueryDict('', mutable=True)
+        new_dict.update({'sender': user_id})
+        new_dict.update(self.request.data)
+        return new_dict
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=self.get_request_data())
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class LoadNewMessages(ListAPIView):
