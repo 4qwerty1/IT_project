@@ -16,6 +16,7 @@
     "vue-axios": "^3.2.0",
     "vue-class-component": "^7.2.3",
     "vue-cookies": "^1.7.4",
+    "vue-cookies-reactive": "^2.0.5",
     "vue-material": "^1.0.0-beta-15",
     "vue-property-decorator": "^8.4.2",
     "vue-router": "^3.2.0",

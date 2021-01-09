@@ -1,13 +1,10 @@
 <template>
   <md-content class="container md-scrollbar mw-500">
-    <!--    <div class="msg-container" v-for="topic in getTopics" :key="topic.id">-->
-    <!--      <router-link to="chat">{{ topic.title }}</router-link>-->
-    <!--    </div>-->
-
-    <div class="msg-container">
-      <router-link class="rout-nav" :to="{ name: 'Chat', params: { topicId: 1 }}">hello</router-link>
+    <div class="msg-container topic" v-for="topic in getTopics" :key="topic.id">
+      <router-link class="rout-nav" :to="{ name: 'Chat', params: { topicId: topic.id, topicTitle: topic.title }}">
+        {{ topic.title }}
+      </router-link>
     </div>
-
   </md-content>
 </template>
 
@@ -25,6 +22,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.topic {
+  margin: 10px;
+}
 
 .md-content {
   height: 70ex;

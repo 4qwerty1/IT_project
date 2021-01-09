@@ -4,7 +4,7 @@ import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Vuelidate from 'vuelidate'
-import VueCookies from 'vue-cookies'
+import VueCookies from 'vue-cookies-reactive'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
@@ -21,7 +21,10 @@ import 'vue-material/dist/theme/default.css'
 Vue.use(VueAxios, axios)
 Vue.use(VueMaterial)
 Vue.use(Vuelidate)
+
 Vue.use(VueCookies)
+Vue.$cookies.config('2d')
+
 
 Vue.config.productionTip = false
 

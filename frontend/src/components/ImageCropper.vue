@@ -67,6 +67,11 @@ export default {
           img.src = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
+
+        const form = new FormData()
+        form.append('avatar', input.files[0], input.files[0].name)
+        console.log(form)
+        this.send(form)
       }
     },
     resetImg() {
@@ -80,19 +85,39 @@ export default {
     },
     saveClick() {
       const {canvas} = this.$refs.cropper.getResult();
-      if (canvas) {
+      if (!canvas) {
         const form = new FormData();
         canvas.toBlob(blob => {
-          form.append('file', blob);
-          // You can use axios, superagent and other libraries instead here
-          // fetch('http://example.com/upload/', {
-          // 	method: 'POST',
-          // 	body: form,
-          // });
-        }, 'image/jpg');
+          form.append("image", blob);
+          this.send(form)
+        },);
+        this.$emit('avatar', form)
       }
       this.showDialog = false
-      this.resetImg()
+      // this.resetImg()
+      // const form = new FormData();
+      // canvas.toBlob(blob => {
+      //   form.append("data", blob);
+      // }, 'image/png')
+      // console.log(form)
+      // this.img.src = form
+    },
+
+    async send(form) {
+      const config = {
+        headers: {
+          Authorization: 'JWT ' + this.$cookies.get('token'),
+          // 'Content-Type': 'multipart/form-data'
+        }
+      }
+
+      await this.axios.patch(`http://127.0.0.1:8000/api/profile`, {avatar: form}, config)
+          .then(res => {
+            console.log(res)
+          })
+          .catch(err => {
+            console.log(err.response)
+          })
     }
   },
 }

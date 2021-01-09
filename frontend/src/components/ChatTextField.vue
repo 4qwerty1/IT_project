@@ -16,10 +16,14 @@
 <script lang="js">
 import axios from 'axios';
 import {maxLength, required,} from 'vuelidate/lib/validators';
+import {mapActions, mapGetters} from 'vuex'
 
 
 export default {
   name: "ChatTextField",
+  props: {
+    topicId: Number
+  },
   data() {
     return {
       message: null,
@@ -31,7 +35,9 @@ export default {
       maxLength: maxLength(200)
     }
   },
+  computed: mapGetters(['getPosts']),
   methods: {
+    ...mapActions(['updatePosts']),
     getValidationClass(fieldName) {
       const field = this.$v[fieldName]
 
@@ -45,33 +51,24 @@ export default {
       this.$v.$reset()
       this.message = null
     },
-    sendMessage() {
-
+    async sendMessage() {
       const message = {
-        id: 2,
-        firstname: 'excorador',
-        icon: 'url',
-        text: this.message
-      }
-      this.$store.dispatch('addPost', message)
-
-      const post = {
+        topic: this.topicId,
         text: this.message,
-        topic: 1,
-        sender: 1,
+        sender: 26, // TODO REMOVE ME!
       }
+      const config = {headers: {Authorization: 'JWT ' + this.$cookies.get('token')}}
+
       const http = axios.create({baseURL: 'http://127.0.0.1:8000/'});
-      http.post('api/messages/', post)
+      await http.post('api/create-message', message, config)
           .then((res) => {
-            if (res.status === 200) {
-              console.log(res.data[0])
+            if (res.statusText === 'Created') {
+              this.updatePosts(this.topicId, this.getPosts[this.getPosts.length - 1]['time_create'])
             }
           })
           .catch((err) => {
             console.log(err)
           })
-
-      // TODO написать post запрос
     },
     validateMessage() {
       this.$v.$touch()

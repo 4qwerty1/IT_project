@@ -6,18 +6,21 @@ export default {
     actions: {
         async fetchPosts(ctx, topicId) {
             const res = await http.get(`/api/get-messages/?topic=${topicId}`)
-            ctx.commit('updatePosts', res.data)
+            ctx.commit('fetchPostsMutation', res.data)
         },
-        addPost(ctx, post) {
-            ctx.commit('addPostMutation', post)
+        async updatePosts(ctx, topicId, last) {
+            console.log(topicId, last)
+            // const posts = await http.get(`/api/load-messages/?topic=${topicId}&last_message=${last}`)
+            // ctx.commit('updatePostsMutation', posts.data)
         }
     },
     mutations: {
-        updatePosts(state, posts) {
+        fetchPostsMutation(state, posts) {
             state.posts = posts
         },
-        addPostMutation(state, post) {
-            state.posts.push(post)
+        updatePostsMutation(state, posts) {
+            // console.log(posts)
+            posts.forEach((mess) => state.posts.push(mess))
         }
     },
     state: {

@@ -32,7 +32,6 @@ export default {
     }
   }
 }
-// TODO Размер имени
 // TODO Выводить логин, если нет имени
 // TODO Доделать профиль
 // TODO Написать запросы
@@ -64,6 +63,7 @@ export default {
 }
 
 .name {
+  width: 200px;
   position: absolute;
   padding-left: 5px;
   font-size: 12.5px;
