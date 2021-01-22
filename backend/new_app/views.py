@@ -67,6 +67,7 @@ class CreateMessageView(CreateAPIView):
     # 	serializer.save()
 
 
+
 class LoadNewMessages(ListAPIView):
     serializer_class = GetMessages
     permission_classes = [IsAuthenticatedOrReadOnly]
