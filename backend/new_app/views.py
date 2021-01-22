@@ -13,6 +13,8 @@ from new_app.serializers import UserRegistrationSerializer, TopicSerializer, Get
 import jwt
 
 
+# todo задуматься над использованием get_serializer_context
+
 class ListUsers(ListAPIView):
     queryset = get_user_model().objects.all().filter(is_staff=False)
     serializer_class = UserRegistrationSerializer
@@ -58,6 +60,11 @@ class CreateMessageView(CreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    # todo переделать view испульзую эту функцию
+    # def perform_create(self, serializer):
+    # 	serializer.validated_data['sender'] = self.request.user
+    # 	serializer.save()
 
 
 class LoadNewMessages(ListAPIView):
