@@ -10,12 +10,10 @@ from django.http import QueryDict
 
 from backend.settings import SECRET_KEY
 from new_app.models import Topic, Message
-from new_app.serializers import UserRegistrationSerializer, TopicSerializer, GetMessages, MessageSerializer, \
+from new_app.serializers import UserRegistrationSerializer, TopicSerializer, MessageSerializer, \
     UserProfileSerializer
 import jwt
 
-
-# todo задуматься над использованием get_serializer_context
 
 class ListUsers(ListAPIView):
     queryset = get_user_model().objects.all().filter(is_staff=False)
@@ -32,32 +30,23 @@ class TopicView(ListCreateAPIView):
 
 
 class MessageView(ListCreateAPIView):
-    queryset = Message.objects.all().order_by('-time_create')
+    queryset = Message.objects.all().order_by('time_create')  # time_create - новые внизу, -time_create - вверху
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = MessageSerializer
+
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['topic']
 
+    def filter_queryset(self, queryset):
+        params = self.request.query_params
+        if 'last_message' in params:
+            start = self.request.query_params['last_message']
+            # GT >, LT <, GTE >=, LTE <=
+            queryset = queryset.filter(time_create__gt=start)
+        return super().filter_queryset(queryset)
+
     def perform_create(self, serializer):
         serializer.save(sender=self.request.user)
-
-
-class LoadNewMessages(ListAPIView):
-    serializer_class = GetMessages
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_fields = ['topic']
-
-    def get_queryset(self):
-        params = self.request.query_params
-        if 'topic' not in params or 'last_message' not in params:
-            return None
-        else:
-            topic = self.request.query_params['topic']
-            start = self.request.query_params['last_message']
-            queryset = Message.objects.all().filter(topic=topic).order_by('time_create')
-
-            # GT >, LT <, GTE >=, LTE <=
-            return queryset.filter(time_create__gt=start)
 
 
 class UserProfileView(APIView):
