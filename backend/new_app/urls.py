@@ -8,7 +8,6 @@ router = SimpleRouter()
 urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
-    path('api/users/', ListUsers.as_view()),
     path('api/topics/', TopicView.as_view()),
     path('api/messages/', MessageView.as_view()),
     path('api/profile/', UserProfileView.as_view())
