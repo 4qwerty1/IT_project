@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
+from rest_framework.filters import SearchFilter
 from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
@@ -8,7 +10,7 @@ from django.http import QueryDict
 
 from backend.settings import SECRET_KEY
 from new_app.models import Topic, Message
-from new_app.serializers import UserRegistrationSerializer, TopicSerializer, GetMessages, CreateMessage, \
+from new_app.serializers import UserRegistrationSerializer, TopicSerializer, GetMessages, MessageSerializer, \
     UserProfileSerializer
 import jwt
 
@@ -21,51 +23,23 @@ class ListUsers(ListAPIView):
     permission_classes = [IsAuthenticated]
 
 
-class ListTopics(ListCreateAPIView):
-    queryset = Topic.objects.all()
+class TopicView(ListCreateAPIView):
+    queryset = Topic.objects.all().order_by('-data_create')
     serializer_class = TopicSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = [SearchFilter]
+    search_fields = ['title']
 
 
-class GetMessagesView(ListAPIView):
-    serializer_class = GetMessages
+class MessageView(ListCreateAPIView):
+    queryset = Message.objects.all().order_by('-time_create')
     permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = MessageSerializer
+    filter_backends = [DjangoFilterBackend]
     filter_fields = ['topic']
 
-    def get_queryset(self):
-        if 'topic' not in self.request.query_params:
-            return None
-        else:
-            topic = self.request.query_params['topic']
-            return Message.objects.all().filter(topic=topic).order_by('time_create')
-
-
-class CreateMessageView(CreateAPIView):
-    queryset = Message.objects.all()
-    permission_classes = [IsAuthenticated]
-    serializer_class = CreateMessage
-
-    def get_request_data(self):
-        token = self.request.headers['Authorization'].split()[1]
-        user_id = jwt.decode(token, algorithms='HS256', key=SECRET_KEY)['user_id']
-
-        new_dict = QueryDict('', mutable=True)
-        new_dict.update({'sender': user_id})
-        new_dict.update(self.request.data)
-        return new_dict
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=self.get_request_data())
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-    # todo переделать view испульзую эту функцию
-    # def perform_create(self, serializer):
-    # 	serializer.validated_data['sender'] = self.request.user
-    # 	serializer.save()
-
+    def perform_create(self, serializer):
+        serializer.save(sender=self.request.user)
 
 
 class LoadNewMessages(ListAPIView):
