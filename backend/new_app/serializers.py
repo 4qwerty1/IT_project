@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, Serializer
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 
@@ -13,22 +14,17 @@ class UserRegistrationSerializer(BaseUserRegistrationSerializer):
 class TopicSerializer(ModelSerializer):
     class Meta:
         model = Topic
-        fields = '__all__'
+        fields = ('id', 'title',)
 
 
-class GetMessages(ModelSerializer):
+class MessageSerializer(ModelSerializer):
     class Meta:
         model = Message
-        fields = ('id', 'text', 'get_name', 'get_avatar', 'time_create')
-
-
-class CreateMessage(ModelSerializer):
-    class Meta:
-        model = Message
-        fields = '__all__'
+        fields = ('name', 'avatar', 'topic', 'text', 'time_create')
+        extra_kwargs = {'topic': {'write_only': True}}
 
 
 class UserProfileSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('id', 'first_name', 'last_name', 'avatar')
+        fields = ('username', 'first_name', 'last_name', 'avatar')
