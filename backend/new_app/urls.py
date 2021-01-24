@@ -1,7 +1,7 @@
 from django.urls import path, re_path, include
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
-from new_app.views import ListUsers, TopicView, MessageView, UserProfileView
+from new_app.views import TopicView, MessageView, UserProfileView
 
 router = SimpleRouter()
 
