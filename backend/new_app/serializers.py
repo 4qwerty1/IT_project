@@ -22,6 +22,7 @@ class MessageSerializer(ModelSerializer):
         model = Message
         fields = ('name', 'avatar', 'topic', 'text', 'time_create')
         extra_kwargs = {'topic': {'write_only': True}}
+        read_only_fields = ['time_create']
 
 
 class UserProfileSerializer(ModelSerializer):
