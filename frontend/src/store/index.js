@@ -4,12 +4,12 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 // import modules
-import topicMessages from './topicMessages'
-import topicList from './topicList'
+import messages from "@/store/messages";
+import topics from "@/store/topics";
 
 export default new Vuex.Store({
     modules: {
-        topicMessages,
-        topicList,
+        messages,
+        topics,
     }
 })

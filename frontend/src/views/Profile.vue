@@ -1,137 +1,101 @@
 <template>
-  <form class="container mw-400" novalidate @submit.prevent="validateUser">
-    <md-card class="md-layout-item">
-      <md-card-header>
-        <div class="md-title">Профиль</div>
-      </md-card-header>
+  <div id="profile">
+    <v-container class="mw-400">
+      <v-card>
+        <v-card-title class="text-center">Профиль</v-card-title>
 
-      <md-card-content>
+        <v-row>
+          <v-col cols="5" class="text-center pt-0">
+            <v-avatar size="56" class="ma-2" style="background-color: #EEEEEE">
+              <v-img :src="user.avatar"/>
+            </v-avatar>
+          </v-col>
 
-        <ImageCropper @avatar="setAvatar"/>
+          <!--TODO может убрать и сделать кликабельную аватарку?-->
+          <v-col cols="5" class="text-center pt-0">
 
-        <div class="md-layout md-gutter">
-          <div class="md-layout-item md-small-size-100">
-            <md-field :class="getValidationClass('firstName')">
-              <label for="firstName">Имя</label>
-              <md-input id="firstName" v-model="form.firstName" autocomplete="given-name"
-                        name="firstName"/>
-              <span v-if="!$v.form.firstName.maxLength" class="md-error">Имя слишком длинное</span>
-            </md-field>
-          </div>
-        </div>
+            <image-cropper :username="user.username" @avatar="user.avatar = $event"/>
+            <!--            <v-btn color="primary" v-on="on">Сменить аватар</v-btn>-->
+          </v-col>
+        </v-row>
 
-        <div class="md-layout md-gutter">
-          <div class="md-layout-item md-small-size-100">
-            <md-field :class="getValidationClass('lastName')">
-              <label for="lastName">Фамилия</label>
-              <md-input id="lastName" v-model="form.lastName" autocomplete="given-name"
-                        name="lastName"/>
-              <span v-if="!$v.form.lastName.maxLength" class="md-error">Фамилия слишком длинная</span>
-            </md-field>
-          </div>
-        </div>
+        <v-card-text>
+          <v-row>
+            <v-col class="pt-0">
+              <v-text-field label="Логин" readonly :value="user.username"/>
+            </v-col>
+          </v-row>
 
-        <md-button style="border-radius: 20px; width: 200px" class="md-raised md-primary" type="submit">Обновить
-        </md-button>
+          <v-row>
+            <v-col class="pt-0">
+              <v-text-field label="Имя" counter="30" maxlength="30" v-model="user.firstname"/>
+            </v-col>
+          </v-row>
 
-        <md-snackbar :md-active.sync="userSaved">Данные пользователя обнавлены</md-snackbar>
-      </md-card-content>
-    </md-card>
-  </form>
+          <v-row>
+            <v-col class="pt-0">
+              <v-text-field label="Фамилия" counter="30" maxlength="30" v-model="user.lastname"/>
+            </v-col>
+          </v-row>
+        </v-card-text>
+
+        <v-card-actions class="text-center">
+          <v-btn color="primary" @click="saveClick">Сохранить изменения</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-container>
+
+    <v-snackbar top v-model="updated">Данные пользователя обновлены</v-snackbar>
+  </div>
 </template>
 
-<script lang="js">
-import axios from 'axios'
-import {minLength, maxLength,} from 'vuelidate/lib/validators'
+<script>
 import ImageCropper from "@/components/ImageCropper";
 
 export default {
   name: "Profile",
   components: {ImageCropper},
-  data: () => ({
-    form: {
-      firstName: null,
-      lastName: null,
-      avatar: null
-    },
-    userSaved: false,
-  }),
-  validations: {
-    form: {
-      firstName: {
-        minLength: minLength(3),
-        maxLength: maxLength(50),
+  data() {
+    return {
+      user: {
+        avatar: null,
+        username: null,
+        firstname: null,
+        lastname: null,
       },
-      lastName: {
-        minLength: minLength(3),
-        maxLength: maxLength(50),
-      }
+      updated: false,
     }
   },
   methods: {
-    getValidationClass(fieldName) {
-      const field = this.$v.form[fieldName]
-
-      if (field) {
-        return {
-          'md-invalid': field.$invalid && field.$dirty
-        };
+    save() {
+      const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+      const user = {
+        first_name: this.user.firstname,
+        last_name: this.user.lastname
       }
+
+      this.axios.patch('api/profile/', user, conf)
+          .catch(err => console.log(err))
+
+      this.updated = true
     },
-    setAvatar(avatar) {
-      this.form.avatar = avatar
-      console.log(this.form.avatar)
-    },
-    async sendUser() {
-      const user = {}
-      if (this.form.firstName) {
-        user['first_name'] = this.form.firstName
-      }
+    saveClick() {
+      this.$v.user.$touch()
 
-      if (this.form.lastName) {
-        user['last_name'] = this.form.lastName
+      if (!this.$v.user.$invalid) {
+        this.save()
       }
-
-      if (this.form.avatar) {
-        console.log(this.form.avatar)
-        // user['avatar'] = this.form.avatar
-      }
-      const config = {
-        headers: {
-          Authorization: 'JWT ' + this.$cookies.get('token')
-        }
-      }
-
-      const http = axios.create({baseURL: 'http://127.0.0.1:8000/'});
-      await http.patch(`/api/profile`, user, config)
-          .then(res => {
-            if (res.statusText === 'Created')
-              this.userSaved = true
-          })
-          .catch(err => {
-            console.log(err.response)
-          })
-      if (this.userSaved)
-        window.setTimeout(() => this.userSaved = false, 1500)
-
-    },
-    validateUser() {
-      this.$v.$touch()
-
-      if (!this.$v.$invalid) {
-        this.sendUser()
-      }
-    },
+    }
   },
-  async created() {
-    const config = {headers: {Authorization: 'JWT ' + this.$cookies.get('token')}}
-
-    const http = axios.create({baseURL: 'http://127.0.0.1:8000/'});
-    await http.get('api/profile', config)
+  created() {
+    const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
+    this.axios.get('api/profile/', conf)
         .then(res => {
-          if (res.status === 200) {
-            this.firstName = res.data['first_name']
-            this.lastName = res.data['lastName']
+          if (res.statusText === 'OK') {
+            this.user.username = res.data.username
+            this.user.firstname = res.data.first_name
+            this.user.lastname = res.data.last_name
+            this.user.avatar = res.data.avatar
           }
         })
   }

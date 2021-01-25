@@ -1,0 +1,99 @@
+.round {
+    border-radius: 20px !important;
+}
+
+.text-center {
+    display: block !important;
+    text-align: center !important;
+}
+
+.hover:hover {
+    opacity: 0.8 !important;
+    cursor: pointer !important;
+}
+
+.scrollbar {
+    overflow-y: scroll !important;
+}
+
+.round-track::-webkit-scrollbar-track {
+    border-radius: 8px !important;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    background-color: #e1e1e1 !important;
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 8px !important;
+    border-radius: 8px !important;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 8px !important;
+    background-color: #757575 !important;
+}
+
+.msg-container {
+    position: relative;
+    min-height: 50px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.left {
+    position: absolute;
+    display: block;
+    left: 10px;
+    z-index: 2;
+    text-align: left;
+}
+
+.my-name {
+    position: absolute;
+    top: 4px;
+    left: 55px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.my-title {
+    position: absolute;
+    text-decoration: none;
+    top: 4px;
+    left: 55px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.message {
+    display: block;
+    text-align: left;
+
+    padding-top: 21px;
+    margin-left: 60px;
+    margin-right: 40px;
+    margin-bottom: 4px;
+
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+}
+
+.message-topic {
+    display: block;
+    text-align: left;
+
+    padding-top: 30px;
+    margin-left: 60px;
+    margin-right: 40px;
+    margin-bottom: 4px;
+
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+}
+
+.mw-400 {
+    max-width: 400px !important;
+}

@@ -1,25 +1,28 @@
 import axios from "axios";
 
-const http = axios.create({baseURL: 'http://localhost:8000/'});
-
 export default {
     actions: {
-        async fetchTopics(ctx) {
-            const res = await http.get(`/api/topics`)
+        async fetchTopics(ctx, search) {
+            let res
+            if (search === undefined)
+                res = await axios.get('api/topics/')
+            else
+                res = await axios.get(`api/topics/?search=${search}`)
+
             ctx.commit('updateTopics', res.data)
-        },
+        }
     },
     mutations: {
         updateTopics(state, topics) {
             state.topics = topics
-        },
-    },
-    state: {
-        topics: []
+        }
     },
     getters: {
         getTopics(state) {
             return state.topics
         }
+    },
+    state: {
+        topics: []
     }
 }
