@@ -23,6 +23,5 @@ export default {
 
 .router
   padding-top: 100px
-  margin-bottom: 160px
 
 </style>

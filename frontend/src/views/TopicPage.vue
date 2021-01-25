@@ -1,7 +1,7 @@
 <template>
   <div id="topic">
     <v-col class="ma-auto" cols="12" lg="8" md="10" sm="12">
-      <view-messages :messages="getMessages" class="mb-3"/>
+      <view-messages :messages="getMessages" class="mb-3" id="view-messages"/>
 
       <div class="pos-relative">
         <v-textarea label="Сообщение" counter="200" no-resize outlined rows="4"
@@ -79,9 +79,12 @@ export default {
       }
     },
   },
-  created() {
+  async mounted() {
     this.topicID = this.$route.query.id
-    this.fetchMessages(this.topicID)
+    await this.fetchMessages(this.topicID)
+
+    const el = this.$el.querySelector('#view-messages')
+    el.scrollTop = el.clientHeight
 
     this.interval = setInterval(() => {
       this.fetchNewMessages(this.topicID)
@@ -89,7 +92,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.interval)
-  }
+  },
 }
 </script>
 

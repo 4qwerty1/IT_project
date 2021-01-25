@@ -1,5 +1,5 @@
 <template>
-  <v-card class="round h-500 mh-500 scrollbar round-track" ref="card">
+  <v-card class="round h-500 mh-500 scrollbar round-track">
     <view-message v-for="message in messages" :key="message.id" :message="message"/>
   </v-card>
 </template>
@@ -26,14 +26,6 @@ export default {
       }
     }
   },
-  methods: {
-    scrollToBottom() {
-      this.$refs.card.scrollTop = this.$refs.card.scrollHeight
-    }
-  },
-  created() {
-
-  }
 }
 </script>
 
