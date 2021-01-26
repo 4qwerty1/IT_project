@@ -18,6 +18,8 @@ class TopicSerializer(ModelSerializer):
 
 
 class MessageSerializer(ModelSerializer):
+    avatar = serializers.ImageField(read_only=True, source='sender.avatar')
+
     class Meta:
         model = Message
         fields = ('name', 'avatar', 'topic', 'text', 'time_create')

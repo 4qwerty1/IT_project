@@ -36,8 +36,3 @@ class Message(models.Model):
             return self.sender.username
         else:
             return name
-
-    def avatar(self):
-        if self.sender.avatar == '':
-            return None
-        return self.sender.avatar.url
