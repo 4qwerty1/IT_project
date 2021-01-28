@@ -19,7 +19,7 @@ Vue.use(Vuelidate)
 Vue.use(VueCookies)
 
 Vue.$cookies.config('2d')
-Vue.axios.defaults.baseURL = 'http://localhost:8000/'
+Vue.axios.defaults.baseURL = 'http://travel-across-russia.tk/'
 
 new Vue({
     router,
