@@ -82,7 +82,7 @@ export default {
     },
     search() {
       if (this.searchReq !== null)
-        this.fetchTopics(`?search=${this.searchReq}`)
+        this.fetchTopics(this.searchReq)
     },
   },
   mounted() {
