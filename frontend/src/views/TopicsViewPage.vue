@@ -11,7 +11,7 @@
 
       <v-dialog v-model="dialog" width="500">
         <template v-slot:activator="{ on }">
-          <v-btn color="primary" rounded v-on="on">Создать обсождение</v-btn>
+          <v-btn color="primary" rounded v-on="on">Создать обсуждение</v-btn>
         </template>
 
         <v-card>
