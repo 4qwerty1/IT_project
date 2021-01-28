@@ -15,7 +15,7 @@ SECRET_KEY = '07d9l0p-d5zpz1v$)*b@6-6yhenmlxmsy30xt)h-g_yq4jnp$a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['travel-across-russia.tk']
 
 # Application definition
 
