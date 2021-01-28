@@ -66,7 +66,6 @@ export default {
       const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
       this.axios.post('api/topics/', {title: this.newTopicName}, conf)
           .then(res => {
-            console.log(res)
             if (res.statusText === 'Created') {
               this.$router.push({name: 'topic', query: {id: res.data.id}})
             }
