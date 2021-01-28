@@ -37,7 +37,7 @@
                   <v-card-actions>
                     <v-spacer/>
                     <v-btn color="red" text @click="dialog = false">Нет</v-btn>
-                    <v-btn color="primary" text @click="logoutClick">Да</v-btn>
+                    <v-btn color="primary" text @click="logoutClick" :to="{name: 'home'}">Да</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -78,7 +78,6 @@ export default {
     logoutClick() {
       this.$cookies.remove('Token')
       this.dialog = false
-      this.$router.push({name: 'home'}).catch()
     }
   },
 }
