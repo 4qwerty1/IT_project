@@ -81,7 +81,8 @@ export default {
       }
     },
     search() {
-      this.fetchTopics(`?search=${this.searchReq}`)
+      if (this.searchReq !== null)
+        this.fetchTopics(`?search=${this.searchReq}`)
     },
   },
   mounted() {
