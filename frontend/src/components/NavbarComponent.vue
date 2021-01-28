@@ -17,7 +17,7 @@
 
           <v-list>
             <v-list-item :to="{name: 'profile'}">
-              <v-list-item-title>профиль</v-list-item-title>
+              <v-list-item-title>Профиль</v-list-item-title>
             </v-list-item>
 
             <v-list-item link>
