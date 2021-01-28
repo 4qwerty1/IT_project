@@ -18,7 +18,7 @@ Vue.use(Vuelidate)
 
 Vue.use(VueCookies)
 
-Vue.$cookies.config('2d')
+Vue.$cookies.config('1d')
 Vue.axios.defaults.baseURL = 'http://travel-across-russia.tk/'
 
 new Vue({
