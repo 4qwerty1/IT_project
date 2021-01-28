@@ -6,7 +6,8 @@
       <div class="pos-relative">
         <v-textarea label="Сообщение" counter="200" no-resize outlined rows="4"
                     :error-messages="messageErrors"
-                    class="round" v-model="message"/>
+                    class="round" v-model="message"
+                    @keydown.enter.prevent="send"/>
         <v-btn class="send-btn" icon @click="trySend">
           <v-icon>mdi-send</v-icon>
         </v-btn>
