@@ -67,8 +67,6 @@ export default {
               this.unAuthorized = true
           })
 
-      this.fetchNewMessages(this.topicID)
-
       this.message = null
     },
     trySend() {

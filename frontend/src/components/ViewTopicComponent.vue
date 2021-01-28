@@ -7,7 +7,7 @@
 
       <div class="left">
         <v-avatar>
-          <img src="@/assets/icons/user.svg" alt="Ava">
+          <img src="@/assets/icons/topic.svg" alt="Ava">
         </v-avatar>
       </div>
       <div class="message-topic">{{ topic.text }}</div>
