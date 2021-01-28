@@ -37,16 +37,5 @@ export default {
     },
     state: {
         messages: []
-        //     {
-        //     type: Array(),
-        //     default() {
-        //         return {
-        //             name: String,
-        //             avatar: String,
-        //             text: String,
-        //             time_create: String
-        //         }
-        //     }
-        // }
     }
 }

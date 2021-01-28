@@ -28,13 +28,13 @@
 
           <v-row>
             <v-col class="pt-0">
-              <v-text-field label="Имя" counter="30" maxlength="30" v-model="user.firstname"/>
+              <v-text-field label="Имя" counter="30" maxlength="30" v-model="user.first_name"/>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col class="pt-0">
-              <v-text-field label="Фамилия" counter="30" maxlength="30" v-model="user.lastname"/>
+              <v-text-field label="Фамилия" counter="30" maxlength="30" v-model="user.last_name"/>
             </v-col>
           </v-row>
         </v-card-text>
@@ -60,31 +60,24 @@ export default {
       user: {
         avatar: null,
         username: null,
-        firstname: null,
-        lastname: null,
+        first_name: null,
+        last_name: null,
       },
       updated: false,
     }
   },
   methods: {
-    save() {
+    saveClick() {
       const conf = {headers: {Authorization: 'JWT ' + this.$cookies.get('Token')}}
       const user = {
-        first_name: this.user.firstname,
-        last_name: this.user.lastname
+        first_name: this.user.first_name,
+        last_name: this.user.last_name
       }
 
       this.axios.patch('api/profile/', user, conf)
           .catch(err => console.log(err))
 
       this.updated = true
-    },
-    saveClick() {
-      this.$v.user.$touch()
-
-      if (!this.$v.user.$invalid) {
-        this.save()
-      }
     }
   },
   created() {
@@ -92,10 +85,7 @@ export default {
     this.axios.get('api/profile/', conf)
         .then(res => {
           if (res.statusText === 'OK') {
-            this.user.username = res.data.username
-            this.user.firstname = res.data.first_name
-            this.user.lastname = res.data.last_name
-            this.user.avatar = res.data.avatar
+            this.user = res.data
           }
         })
   }

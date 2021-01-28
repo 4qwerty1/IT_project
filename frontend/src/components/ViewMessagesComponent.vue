@@ -19,7 +19,7 @@ export default {
       default() {
         return [{
           id: Number,
-          get_name: String,
+          name: String,
           avatar: String,
           text: String,
         }]

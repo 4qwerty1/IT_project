@@ -1,10 +1,10 @@
 <template>
   <v-container class="align-self-center">
     <div class="msg-container">
-      <span class="my-name">{{ message.get_name }}</span>
+      <span class="my-name">{{ message.name }}</span>
       <div class="left">
-        <v-avatar>
-          <img :src="message.avatar" alt="Ava">
+        <v-avatar style="background-color: #EEEEEE">
+          <v-img :src="message.avatar"/>
         </v-avatar>
       </div>
       <div class="message">{{ message.text }}</div>
@@ -21,7 +21,7 @@ export default {
       type: Object,
       default() {
         return {
-          get_name: String,
+          name: String,
           avatar: String,
           text: String
         }
